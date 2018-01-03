@@ -203,7 +203,7 @@ abstract class AdapterDescriptor {
     private Optional<ConstructorInfo> getConstructorInfo(
         TypeElement adapterElement, DeclaredType resolvedAdapterType, boolean allowSerializable) {
 
-      ExecutableElement mainConstructor = Utils.findLargestPublicConstructor(adapterElement);
+      ExecutableElement mainConstructor = Utils.findBestConstructor(adapterElement);
       if (mainConstructor == null) return Optional.absent();
 
       ImmutableList.Builder<ConstructorInfo.Param> parameterBuilder = ImmutableList.builder();

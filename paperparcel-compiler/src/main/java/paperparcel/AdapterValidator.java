@@ -79,7 +79,7 @@ final class AdapterValidator {
       }
     }
 
-    ExecutableElement mainConstructor = Utils.findLargestPublicConstructor(element);
+    ExecutableElement mainConstructor = Utils.findBestConstructor(element);
     if (mainConstructor != null) {
       builder.addSubreport(validateConstructor(mainConstructor));
     } else if (adaptedType != null) {

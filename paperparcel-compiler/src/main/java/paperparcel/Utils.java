@@ -79,6 +79,15 @@ final class Utils {
         }
       };
 
+  private static final Predicate<ExecutableElement> FILTER_NON_ANNOTATED_CONSTRUCTOR =
+          new Predicate<ExecutableElement>() {
+            @Override public boolean apply(ExecutableElement executableElement) {
+              Optional<AnnotationMirror> constructorMirror =
+                      MoreElements.getAnnotationMirror(executableElement, ParcelConstructor.class);
+              return constructorMirror.isPresent();
+            }
+          };
+
   private static final Predicate<ExecutableElement> FILTER_NON_PUBLIC =
       new Predicate<ExecutableElement>() {
         @Override public boolean apply(ExecutableElement executableElement) {
@@ -151,6 +160,29 @@ final class Utils {
           throw new IllegalArgumentException();
         }
       };
+
+  @Nullable static ExecutableElement findBestConstructor(TypeElement typeElement) {
+    ExecutableElement constructor = findAnnotatedConstructor(typeElement);
+
+    if (constructor == null) {
+      constructor = findLargestPublicConstructor(typeElement);
+    }
+
+    return constructor;
+  }
+
+  @Nullable static ExecutableElement findAnnotatedConstructor(TypeElement typeElement) {
+    List<ExecutableElement> constructors =
+            FluentIterable.from(ElementFilter.constructorsIn(typeElement.getEnclosedElements()))
+                    .filter(FILTER_NON_ANNOTATED_CONSTRUCTOR)
+                    .toList();
+
+    if (constructors.size() == 0) {
+      return null;
+    }
+
+    return constructors.get(0);
+  }
 
   /**
    * Returns the public constructor in a given class with the largest number of arguments, or
