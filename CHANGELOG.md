@@ -1,6 +1,18 @@
 Change Log
 ==========
 
+
+Version 2.0.6 *(2018-05-01)*
+----------------------------
+
+* Fix incorrect proguard rules for for paperparcel-kotlin
+
+Version 2.0.5 *(2017-08-28)*
+----------------------------
+
+* Synchronize the write method cache
+* Stricter consumer proguard rules for paperparcel-kotlin
+
 Version 2.0.4 *(2017-08-28)*
 ----------------------------
 
